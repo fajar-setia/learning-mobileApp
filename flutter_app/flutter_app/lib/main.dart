@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/home_page.dart';
+import 'components/bottom_nav.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: FloatingBottomNav(),
+      routes: {
+        '/home': (context) => HomePage(),
+      },
     );
   }
 
