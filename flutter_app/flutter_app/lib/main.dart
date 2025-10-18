@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/home_page.dart';
+import 'package:flutter_app/pages/product_page.dart';
 import 'components/bottom_nav.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
       home: FloatingBottomNav(),
       routes: {
         '/home': (context) => HomePage(),
+        '/products': (context) => ProductPage(),
       },
     );
   }

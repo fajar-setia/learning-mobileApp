@@ -21,19 +21,7 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-                  'Subject',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-        ),
-        backgroundColor: Colors.deepPurple,
-      ),
+      
       body: FutureBuilder<List<dynamic>>(
         future: _products,
         builder: (context, snapshot) {
