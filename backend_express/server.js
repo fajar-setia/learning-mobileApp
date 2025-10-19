@@ -1,41 +1,35 @@
-import express from 'express';
-import path from 'path';
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import cors from 'cors';
-import pool from './db_pakaian.js';
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+import productRoutes from "./routes/productRoutes.js"
+
 
 dotenv.config();
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Path setup
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-// Serve static React build (opsional)
-app.use(express.static(path.join(__dirname, 'public')));
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("MongoDB Connect"))
+.catch((err) => console.error("connecction Error:", err));
 
-// Routes
-app.get('/', (req, res) => {
-  res.send('✅ Backend Express is running with PostgreSQL');
-});
-
-app.get('/products', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM products ORDER BY id ASC');
-    console.log('✅ products fetched:', result.rows);
-    res.json(result.rows);
+//route
+app.get("/", (res, req) => {
+    try {
+     res.send("🐾 Petshop API is running...");
   } catch (err) {
-    console.error('❌ Error fetching products:', err.stack);
+    
     res.status(500).json({ error: err.message });
   }
 });
 
+//route produk
+app.use("/api/products", productRoutes);
 
-// Start server
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+

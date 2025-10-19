@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       home: FloatingBottomNav(),
       routes: {
         '/home': (context) => HomePage(),
-        '/products': (context) => ProductPage(),
+        '/product': (context) => ProductPage(),
       },
     );
   }

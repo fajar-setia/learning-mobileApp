@@ -25,7 +25,7 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
-        automaticallyImplyLeading: false, // biar tidak ada tombol back
+        // automaticallyImplyLeading: false, // biar tidak ada tombol back
         backgroundColor: Colors.deepPurple,
         title: Row(
           children: [

@@ -17,6 +17,12 @@ class AppFeaturesImage {
   //banner
   static const String banner = 'assets/assets_feature/banner_bg.png';
 
+  //banner promo
+  static const String promo1 = 'assets/assets_banner/banner_promo1.png';
+  static const String promo2 = 'assets/assets_banner/banner_promo2.png';
+  static const String promo3 = 'assets/assets_banner/banner_promo3.png';
+  static const String promo4 = 'assets/assets_banner/banner_promo4.png';
+
 }
 
 class AppFeature {
@@ -56,5 +62,22 @@ class AppFeature {
       'title': 'Informasi',
       'route': '/informasi'
     },
+  ];
+}
+
+class AppBanner {
+  static final List<Map<String, dynamic>> list = [
+    {
+      'gambar':AppFeaturesImage.promo1
+    },
+    {
+      'gambar':AppFeaturesImage.promo2
+    },
+    {
+      'gambar':AppFeaturesImage.promo3
+    },
+    {
+      'gambar':AppFeaturesImage.promo4
+    }
   ];
 }

@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/product_page.dart';
 import '../feature/import_features.dart';
@@ -186,6 +187,7 @@ class _HomePageState extends State<HomePage> {
                                       8,
                                   child: GestureDetector(
                                     onTap: () {
+                                     
                                       Navigator.pushNamed(
                                         context,
                                         feature['route'],
@@ -193,16 +195,14 @@ class _HomePageState extends State<HomePage> {
                                     },
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      
+
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
-                                            
                                             borderRadius: BorderRadius.circular(
                                               10,
                                             ),
                                           ),
-                                          padding: const EdgeInsets.all(8),
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(
                                               10,
@@ -217,7 +217,6 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         const SizedBox(height: 2),
                                         Text(
-                                          
                                           feature['title'],
                                           style: TextStyle(
                                             fontSize: 12,
@@ -237,18 +236,54 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 12),
                     Container(
-                      margin: EdgeInsets.all(5),
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         children: [
-                          Text(
-                            'ini adalah bagian bawah topics',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey[800],
-                              fontWeight: FontWeight.w500,
+                          Container(
+                            alignment: AlignmentDirectional.topStart,
+                            margin: const EdgeInsets.only(left: 12.0),
+                            child: Text(
+                              'Special Promo',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
-                        ],
+                          Container(
+                            margin: const EdgeInsets.only(top: 12),
+                            padding: const EdgeInsets.symmetric(horizontal: 2),
+                            
+                            child:CarouselSlider.builder(
+                              itemCount: AppBanner.list.length,
+                              itemBuilder: (context, index, realIndex) {
+                                return GestureDetector(
+                                  onTap: () {
+
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.asset(
+                                      AppBanner.list[index]['gambar'],
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 150,
+                                    ),
+                                  ),
+                                );
+                              },
+                              options: CarouselOptions(
+                                height: 150,
+                                autoPlay: true,
+                                autoPlayInterval: Duration(seconds: 5),
+                                enlargeCenterPage: false,
+                                viewportFraction: 1.0
+                              ),
+                            ) ,
+                          ),
+                        ]
                       ),
                     ),
                   ],
