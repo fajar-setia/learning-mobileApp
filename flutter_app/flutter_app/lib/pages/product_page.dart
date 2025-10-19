@@ -21,7 +21,6 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: FutureBuilder<List<dynamic>>(
         future: _products,
         builder: (context, snapshot) {
@@ -41,9 +40,24 @@ class _ProductPageState extends State<ProductPage> {
               return Card(
                 margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 elevation: 2,
-                child: ListTile(
-                  title: Text(p['name'] ?? 'Tanpa nama'),
-                  subtitle: Text('Harga: ${p['price']}'),
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(p['name'] ?? 'Tanpa nama'),
+                      subtitle: Text('Harga: ${p['price']}'),
+                    ),
+                    Text(p['slug'] ?? 'tanpa slug'),
+                    Text(p['description'] ?? 'nodesk'),
+                    ListTile(
+                      title: Text('Harga: ${p['comparePrice']}'),
+                      subtitle: Text(p['category'] ?? 'nocat'),
+                    ),
+                    ClipRRect(
+                      child: Image.network(
+                        'https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg',
+                      )
+                    ),
+                  ],
                 ),
               );
             },
