@@ -1,14 +1,15 @@
+import { useState } from 'react'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import AdminPetshop from './pages/Admin.tsx'
+import AdminPetshop from './pages/adminPetshop.jsx'
 
 function App() {
-  
+
 
   return (
     <>
       <Routes>
-        <Route path='/' element={<AdminPetshop/>}/>
+        <Route path='/' element={< AdminPetshop/>} />
       </Routes>
     </>
   )

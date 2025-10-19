@@ -1,10 +1,23 @@
 import { useState } from "react";
-import { Home, LucideDog, Bell, Menu } from "lucide-react";
 
-function Dashboard() {
+import { Home, LucideDog, Bell, Menu } from "lucide-react";
+import axios from "axios";
+
+
+
+//linkbackend
+const BASE_URL_PRODUCT = "http://localhost:5000/api/products";
+
+function Dashboard({handleSubmit,formProduct}) {
   return (
     <div className="bg-amber-800 p-4 text-white rounded-xl">
-      <p>Halo, ini bagian dashboard</p>
+      <h2 className="text-xl font-semibold mb-4 text-center">Tambah Produk Baru</h2>
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <input
+            name="name"
+            value={formProduct}
+        />
+      </form>
     </div>
   );
 }
@@ -18,9 +31,62 @@ function Product() {
 }
 
 export default function AdminPetshop() {
-  const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [loading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [formProduct, setFormProduct] = useState({
+    name: "",
+    slug:"",
+    description:"",
+    price:"",
+    comparePrice:"",
+    category:"",
+    petType:[""],
+    brand:"",
+    weight:"",
+    unit:[""],
+    stock:"",
+    images:[""],
+    tags:[""],
+    rating:"",
+    reviewCount:"",
+    isAvailable:true,
+  });
+
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormProduct((prev) => ({...prev, [name]: value}));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try{
+        await axios.post(BASE_URL_PRODUCT, formProduct);
+        alert("produk berhasil ditambahkan");
+        setFormProduct({
+            name: "",
+            slug:"",
+            description:"",
+            price:"",
+            comparePrice:"",
+            category:"",
+            petType:[""],
+            brand:"",
+            weight:"",
+            unit:[""],
+            stock:"",
+            images:[""],
+            tags:[""],
+            rating:"",
+            reviewCount:"",
+            isAvailable:true,
+        });
+    }catch(error){
+        console.log(error);
+        alert("gagal menambahkan produk")
+    }
+  };
   
 
   const menuItem = [
@@ -39,11 +105,15 @@ export default function AdminPetshop() {
 
     switch (activeTab) {
       case "dashboard":
-        return <Dashboard />;
+        return <Dashboard {...{
+            handleSubmit,
+        }}/>;
       case "product":
         return <Product />;
       default:
-        return <Dashboard />;
+        return <Dashboard{...{
+            handleSubmit
+        }} />;
     }
   };
 

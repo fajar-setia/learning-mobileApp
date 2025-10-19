@@ -27,7 +27,7 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id, // ✅ req.params (bukan prams!)
+      req.params.id, 
       req.body,
       { new: true, runValidators: true }
     );
