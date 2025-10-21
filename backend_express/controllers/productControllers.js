@@ -27,7 +27,7 @@ const createProduct = async (req, res) => {
 
     const savedProduct = await newProduct.save();
 
-    console.log("✅ Produk berhasil disimpan:", savedProduct);
+    console.log("✅ Produk berhasil disimpan:");
     return res.status(201).json({
       message: "Produk berhasil ditambahkan",
       product: savedProduct,

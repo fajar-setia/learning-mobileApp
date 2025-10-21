@@ -12,7 +12,8 @@ const storage = multer.diskStorage({
     cb(null, "uploads/"); // pastikan folder "uploads/" sudah ada
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // nama unik + ekstensi asli
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
   },
 });
 

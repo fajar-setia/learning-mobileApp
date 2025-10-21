@@ -25,6 +25,7 @@ class _ProductPageState extends State<ProductPage> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
+      
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadiusGeometry.vertical(top: Radius.circular(20))
       ),
@@ -155,7 +156,7 @@ class _ProductPageState extends State<ProductPage> {
             const SizedBox(width: 8),
             IconButton(
               icon: const Icon(Icons.filter_list, color: Colors.white),
-              onPressed: _showFilterBottomState, // 🔹 panggil fungsi filter
+              onPressed: _showFilterBottomState, // 
             ),
           ],
         ),
@@ -268,26 +269,7 @@ class _ProductPageState extends State<ProductPage> {
                                 ),
 
                               const SizedBox(height: 6),
-                              // 🏷️ Tags (maksimal 2 biar tidak kepanjangan)
-                              Wrap(
-                                spacing: 4.0,
-                                runSpacing: 2.0,
-                                children: (p['tags'] as List)
-                                    .take(2) // batasi 2 tag saja agar rapi
-                                    .map(
-                                      (tag) => Chip(
-                                        label: Text(
-                                          tag.toString(),
-                                          style: const TextStyle(fontSize: 10),
-                                        ),
-                                        backgroundColor: Colors.amber.shade100,
-                                        visualDensity: VisualDensity.compact,
-                                        materialTapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
+                              
                             ],
                           ),
                         ),

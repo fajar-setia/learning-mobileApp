@@ -3,6 +3,7 @@ import 'package:flutter_app/pages/product_page.dart';
 import '../pages/home_page.dart';
 
 
+
 // Alternatif: Floating Bottom Navigation dengan Notch
 class FloatingBottomNav extends StatefulWidget {
   const FloatingBottomNav({super.key});
@@ -100,4 +101,24 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
       ),
     );
   }
+  void changeTabByRoute(String route) {
+  setState(() {
+    switch (route) {
+      case '/product':
+        _currentIndex = 1;
+        break;
+      case '/profile':
+        _currentIndex = 2;
+        break;
+      case '/settings':
+        _currentIndex = 3;
+        break;
+      default:
+        _currentIndex = 0;
+    }
+  });
 }
+
+}
+
+

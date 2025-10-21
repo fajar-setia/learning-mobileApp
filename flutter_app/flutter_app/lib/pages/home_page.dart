@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/product_page.dart';
 import '../feature/import_features.dart';
+import '../components/bottom_nav.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -154,13 +154,11 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ProductPage(),
-                                          ),
-                                        );
+                                        final navState = context
+                                            .findAncestorStateOfType<
+                                              FloatingBottomNavState
+                                            >();
+                                        navState?.changeTabByRoute('/product');
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.deepPurple,
@@ -224,11 +222,21 @@ class _HomePageState extends State<HomePage> {
                                       8,
                                   child: GestureDetector(
                                     onTap: () {
-                                     
-                                      Navigator.pushNamed(
-                                        context,
-                                        feature['route'],
-                                      );
+                                      final navState = context
+                                          .findAncestorStateOfType<
+                                            FloatingBottomNavState
+                                          >();
+                                      if (navState != null) {
+                                        navState.changeTabByRoute(
+                                          feature['route'],
+                                        );
+                                      } else {
+                                        // kalau FloatingBottomNav tidak ditemukan, fallback ke Navigator
+                                        Navigator.pushNamed(
+                                          context,
+                                          feature['route'],
+                                        );
+                                      }
                                     },
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
@@ -292,14 +300,12 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             margin: const EdgeInsets.only(top: 12),
                             padding: const EdgeInsets.symmetric(horizontal: 2),
-                            
-                            child:CarouselSlider.builder(
+
+                            child: CarouselSlider.builder(
                               itemCount: AppBanner.list.length,
                               itemBuilder: (context, index, realIndex) {
                                 return GestureDetector(
-                                  onTap: () {
-
-                                  },
+                                  onTap: () {},
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(16),
                                     child: Image.asset(
@@ -316,11 +322,11 @@ class _HomePageState extends State<HomePage> {
                                 autoPlay: true,
                                 autoPlayInterval: Duration(seconds: 5),
                                 enlargeCenterPage: false,
-                                viewportFraction: 1.0
+                                viewportFraction: 1.0,
                               ),
-                            ) ,
+                            ),
                           ),
-                        ]
+                        ],
                       ),
                     ),
                   ],
