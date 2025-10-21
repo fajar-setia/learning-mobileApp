@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
   price: { type: Number, required: true, min: 0 },
   comparePrice: { type: Number, min: 0 },
   category: { type: String, required: true }, // atau ObjectId jika pakai model Category
-  petType: [{ type: String, enum: ['anjing', 'kucing', 'burung', 'ikan', 'hamster', 'kelinci', 'reptil'] }],
+  petType: [{ type: String, enum: ['anjing', 'kucing', 'burung'] }],
   brand: { type: String },
   weight: { type: Number }, // dalam gram
   unit: { type: String, enum: ['gr', 'kg', 'ml', 'l', 'pcs'] },

@@ -14,6 +14,43 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        // automaticallyImplyLeading: false, // biar tidak ada tombol back
+        backgroundColor: Colors.deepPurple,
+        title: Row(
+          children: [
+            // 🔹 Logo di kiri AppBar
+            CircleAvatar(
+              radius: 22,
+              backgroundImage: AssetImage(AppFeaturesImage.logo),
+            ),
+            const SizedBox(width: 10),
+            // 🔹 Teks sambutan
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'Welcome!!!',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  'LA PETS',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white70,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Stack(
         children: [

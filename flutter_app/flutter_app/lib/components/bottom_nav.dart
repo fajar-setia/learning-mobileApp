@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/product_page.dart';
 import '../pages/home_page.dart';
-import '../feature/import_features.dart';
 
 
 // Alternatif: Floating Bottom Navigation dengan Notch
@@ -23,73 +22,8 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
-      appBar: AppBar(
-        // automaticallyImplyLeading: false, // biar tidak ada tombol back
-        backgroundColor: Colors.deepPurple,
-        title: Row(
-          children: [
-            // 🔹 Logo di kiri AppBar
-            CircleAvatar(
-              radius: 22,
-              backgroundImage: AssetImage(AppFeaturesImage.logo),
-            ),
-            const SizedBox(width: 10),
-            // 🔹 Teks sambutan
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'Welcome!!!',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                Text(
-                  'LA PETS',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white70,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        elevation: 4,
-      ),
-      body: SafeArea(child: _pages[_currentIndex]),
-      // floatingActionButton: Container(
-      //   width: 60,
-      //   height: 60,
-      //   decoration: BoxDecoration(
-      //     gradient: LinearGradient(
-      //       colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
-      //       begin: Alignment.topLeft,
-      //       end: Alignment.bottomRight,
-      //     ),
-      //     borderRadius: BorderRadius.circular(30),
-      //     boxShadow: [
-      //       BoxShadow(
-      //         color: Color(0xFF667EEA).withValues(alpha: 0.3),
-      //         blurRadius: 15,
-      //         offset: Offset(0, 5),
-      //       ),
-      //     ],
-      //   ),
-      //   child: FloatingActionButton(
-      //     onPressed: () {
-      //       // Action untuk FAB
-      //     },
-      //     backgroundColor: Colors.transparent,
-      //     elevation: 0,
-      //     child: Icon(Icons.add, color: Colors.white, size: 28),
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      extendBodyBehindAppBar: true,
+      body: _pages[_currentIndex],
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         notchMargin: 8,

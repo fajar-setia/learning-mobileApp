@@ -15,13 +15,32 @@ const getProduct = async (req, res) => {
 // POST /api/products
 const createProduct = async (req, res) => {
   try {
-    const newProduct = new Product(req.body);
+   
+    const bodyData = Object.fromEntries(Object.entries(req.body));
+
+    const imagePaths = req.files ? req.files.map((file) => file.path) : [];
+
+    const newProduct = new Product({
+      ...bodyData,
+      images: imagePaths,
+    });
+
     const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct);
+
+    console.log("✅ Produk berhasil disimpan:", savedProduct);
+    return res.status(201).json({
+      message: "Produk berhasil ditambahkan",
+      product: savedProduct,
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("❌ Error saat menyimpan produk:", error);
+    return res.status(500).json({
+      message: "Terjadi kesalahan di server",
+      error: error.message,
+    });
   }
 };
+
 
 // PUT /api/products/:id
 const updateProduct = async (req, res) => {
