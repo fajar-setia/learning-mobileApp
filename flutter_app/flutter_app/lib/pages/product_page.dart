@@ -13,7 +13,9 @@ class _ProductPageState extends State<ProductPage> {
   final ProductService _service = ProductService();
   late Future<List<dynamic>> _products;
   String _query = '';
-   String _selectedCategory = '';
+  String _selectedCategory = '';
+  int stock = 0;
+  bool isAvailable = false;
 
   @override
   void initState() {
@@ -25,9 +27,9 @@ class _ProductPageState extends State<ProductPage> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
-      
+
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.vertical(top: Radius.circular(20))
+        borderRadius: BorderRadiusGeometry.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return StatefulBuilder(
@@ -39,10 +41,7 @@ class _ProductPageState extends State<ProductPage> {
                 children: [
                   const Text(
                     'Filter Produk',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
 
@@ -61,16 +60,19 @@ class _ProductPageState extends State<ProductPage> {
                         label: const Text('Makanan'),
                         selected: _selectedCategory == 'makanan',
                         onSelected: (selected) {
-                          setModalState(() =>
-                              _selectedCategory = selected ? 'makanan' : '');
+                          setModalState(
+                            () => _selectedCategory = selected ? 'makanan' : '',
+                          );
                         },
                       ),
                       FilterChip(
                         label: const Text('Aksesoris'),
                         selected: _selectedCategory == 'aksesoris',
                         onSelected: (selected) {
-                          setModalState(() =>
-                              _selectedCategory = selected ? 'aksesoris' : '');
+                          setModalState(
+                            () =>
+                                _selectedCategory = selected ? 'aksesoris' : '',
+                          );
                         },
                       ),
                       FilterChip(
@@ -78,7 +80,8 @@ class _ProductPageState extends State<ProductPage> {
                         selected: _selectedCategory == 'obat',
                         onSelected: (selected) {
                           setModalState(
-                              () => _selectedCategory = selected ? 'obat' : '');
+                            () => _selectedCategory = selected ? 'obat' : '',
+                          );
                         },
                       ),
                     ],
@@ -156,7 +159,7 @@ class _ProductPageState extends State<ProductPage> {
             const SizedBox(width: 8),
             IconButton(
               icon: const Icon(Icons.filter_list, color: Colors.white),
-              onPressed: _showFilterBottomState, // 
+              onPressed: _showFilterBottomState, //
             ),
           ],
         ),
@@ -217,7 +220,7 @@ class _ProductPageState extends State<ProductPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // 🖼️ Gambar produk
+                        // Gambar produk
                         ClipRRect(
                           borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(10),
@@ -234,7 +237,7 @@ class _ProductPageState extends State<ProductPage> {
                           ),
                         ),
 
-                        // 🧾 Nama dan harga
+                        // Nama dan harga
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
@@ -250,26 +253,85 @@ class _ProductPageState extends State<ProductPage> {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              Text(
-                                'Rp.${p['price']}',
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.w600,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        'Rp.${p['price']}',
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      if (p['comparePrice'] != null)
+                                        Text(
+                                          'Rp.${p['comparePrice']}',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                  Container(
+                                    padding: EdgeInsetsGeometry.all(5.0),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          (p['isAvailable'] == true &&
+                                              (p['stock'] ?? 0) > 0)
+                                          ? Colors.green[100]
+                                          : Colors.red[100],
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Text(
+                                      (p['isAvailable'] == true &&
+                                              (p['stock'] ?? 0) > 0)
+                                          ? 'Stok: ${p['stock']}'
+                                          : 'Habis',
+                                      style: TextStyle(
+                                        color:
+                                            (p['isAvailable'] == true &&
+                                                (p['stock'] ?? 0) > 0)
+                                            ? Colors.green[700]
+                                            : Colors.red[700],
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(2.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.amber[700],
+                                      size: 12,
+                                    ),
+                                    Text(
+                                      '${p['rating']}',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              if (p['comparePrice'] != null)
-                                Text(
-                                  'Rp.${p['comparePrice']}',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
+                              const SizedBox(height: 2,),
+                              Container(
+                                padding: EdgeInsets.all(2.0),
+                                child: Text(
+                                  '${p['reviewCount']} Ulasan'
                                 ),
-
-                              const SizedBox(height: 6),
-                              
+                              )
                             ],
                           ),
                         ),

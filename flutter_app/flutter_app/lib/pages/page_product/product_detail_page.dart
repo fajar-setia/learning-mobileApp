@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_app/pages/login_page/login_page.dart';
+import 'package:flutter_app/pages/login_page/services_Login/auth_helper.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Map<String, dynamic> product;
@@ -172,7 +174,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                   ),
 
-                const SizedBox(height: 80), // Space for bottom button
+                const SizedBox(height: 60), // Space for bottom button
               ],
             ),
           ),
@@ -182,7 +184,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             bottom: 0,
             left: 0,
             right: 0,
-            child: _buildBottomButton(isAvailable, stock),
+            child: _buildBottomButton(context,isAvailable, stock),
           ),
         ],
       ),
@@ -429,51 +431,86 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Widget _buildBottomButton(bool isAvailable, int stock) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: .1),
-            blurRadius: 8,
-            offset: const Offset(0, -2),
+  Widget _buildBottomButton( context, bool isAvailable, int stock) {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    decoration: const BoxDecoration(color: Colors.transparent),
+    child: Row(
+      children: [
+        // Tombol keranjang
+        ElevatedButton(
+          onPressed: isAvailable && stock > 0
+              ? () async {
+                  bool loggedIn = await isUserLoggedIn();
+                  if (!loggedIn) {
+                    // Kalau belum login → ke halaman login
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                    );
+                  } else {
+                    // Kalau sudah login → aksi tambah ke keranjang
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Produk ditambahkan ke keranjang 🛒'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                }
+              : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.deepPurple,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 13),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: ElevatedButton(
-              onPressed: isAvailable && stock > 0
-                  ? () {
-                      // Add to cart action
+          child: const Icon(Icons.shopping_cart_outlined, size: 25),
+        ),
+
+        const SizedBox(width: 8.0),
+
+        // Tombol beli sekarang
+        Expanded(
+          child: ElevatedButton(
+            onPressed: isAvailable && stock > 0
+                ? () async {
+                    bool loggedIn = await isUserLoggedIn();
+                    if (!loggedIn) {
+                      // Kalau belum login → ke halaman login
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginPage()),
+                      );
+                    } else {
+                      // Kalau sudah login → aksi beli langsung
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Produk ditambahkan ke keranjang'),
+                          content: Text('Lanjut ke Pembelian 💸'),
                           duration: Duration(seconds: 2),
                         ),
                       );
                     }
-                  : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                disabledBackgroundColor: Colors.grey[300],
-              ),
-              child: const Text(
-                'Tambah ke Keranjang',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  }
+                : null,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.deepPurple,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
+            child: const Text(
+              'Beli Sekarang',
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 }

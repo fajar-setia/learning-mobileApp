@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/home_page.dart';
 import 'package:flutter_app/pages/product_page.dart';
 import 'components/bottom_nav.dart';
+import 'package:flutter_app/pages/login_page/login_page.dart';
+
 
 
 void main() {
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomePage(),
         '/product': (context) => ProductPage(),
+        '/login':(context) => LoginPage(),
       },
     );
   }
