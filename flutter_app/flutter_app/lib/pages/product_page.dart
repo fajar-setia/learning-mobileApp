@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/home_page.dart';
 import '../services/product_service.dart';
 import '../pages/page_product/product_detail_page.dart';
 
@@ -121,7 +122,10 @@ class _ProductPageState extends State<ProductPage> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage())
+          ),
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

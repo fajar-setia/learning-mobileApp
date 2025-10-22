@@ -3,10 +3,12 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
 import multer from "multer";
 
 
 dotenv.config();
+console.log("JWT_SECRET dari env:", process.env.JWT_SECRET);
 
 const app = express();
 app.use(cors());
@@ -19,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI)
 .catch((err) => console.error("connecction Error:", err));
 
 //route
-app.get("/", (res, req) => {
+app.get("/", (req, res) => {
     try {
      res.send("🐾 Petshop API is running...");
   } catch (err) {
@@ -28,9 +30,9 @@ app.get("/", (res, req) => {
   }
 });
 
-
 //route produk
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

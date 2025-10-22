@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/login_page/login_page.dart';
 import '../feature/import_features.dart';
 import '../components/bottom_nav.dart';
+import '../pages/login_page//services_Login/auth_helper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,39 +13,99 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? username = 'Guest'; // default
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final name = await getUsername();
+    setState(() {
+      username = name ?? 'Guest';
+    });
+  }
+
+  Future<void> _handleAuthButton() async {
+    if (username == null || username == 'Guest') {
+      // 🔵 Belum login → buka halaman login
+      await Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
+      // setelah balik dari login, refresh username
+      await _loadUsername();
+    } else {
+      // 🔴 Sudah login → logout dan ubah jadi guest
+      await logoutUser();
+      setState(() {
+        username = 'Guest';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        // automaticallyImplyLeading: false, // biar tidak ada tombol back
         backgroundColor: Colors.deepPurple,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // 🔹 Logo di kiri AppBar
-            CircleAvatar(
-              radius: 22,
-              backgroundImage: AssetImage(AppFeaturesImage.logo),
+            // 🔹 Logo & teks di kiri
+            Row(
+              children: [
+                const CircleAvatar(
+                  radius: 22,
+                  backgroundImage: AssetImage(AppFeaturesImage.logo),
+                ),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Welcome!!!',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      'LA PETS',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(width: 10),
-            // 🔹 Teks sambutan
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+
+            // 🔹 Username + Icon logout di kanan
+            Row(
+              children: [
                 Text(
-                  'Welcome!!!',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                  username ?? 'Guest',
+                  style: const TextStyle(
                     color: Colors.white,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                Text(
-                  'LA PETS',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white70,
+                const SizedBox(width: 8),
+                IconButton(
+                  onPressed: _handleAuthButton,
+                  icon: Icon(
+                    (username == null || username == 'Guest')
+                        ? Icons
+                              .login // tampil login kalau guest
+                        : Icons.logout, // tampil logout kalau sudah login
+                    color: Colors.white,
                   ),
                 ),
               ],
