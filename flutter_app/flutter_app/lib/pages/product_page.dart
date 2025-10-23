@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/home_page.dart';
+import 'package:flutter_app/components/bottom_nav.dart';
 import '../services/product_service.dart';
 import '../pages/page_product/product_detail_page.dart';
 
@@ -27,86 +27,170 @@ class _ProductPageState extends State<ProductPage> {
   void _showFilterBottomState() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
-
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.vertical(top: Radius.circular(20)),
-      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (context) {
+        String tempCategory = _selectedCategory; // temporary state
+
         return StatefulBuilder(
           builder: (context, setModalState) {
-            return Padding(
-              padding: const EdgeInsets.all(16),
+            return Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+              ),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Handle bar
+                  Container(
+                    width: 40,
+                    height: 4,
+                    margin: const EdgeInsets.only(bottom: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+
+                  // Title
                   const Text(
                     'Filter Produk',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
 
-                  // 🔹 Contoh kategori (sesuaikan dengan data kamu)
+                  // Category label
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Kategori',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Filter Chips
                   Wrap(
-                    spacing: 8.0,
+                    spacing: 10.0,
+                    runSpacing: 10.0,
                     children: [
-                      FilterChip(
-                        label: const Text('Semua'),
-                        selected: _selectedCategory.isEmpty,
-                        onSelected: (selected) {
-                          setModalState(() => _selectedCategory = '');
+                      _buildFilterChip(
+                        label: 'Semua',
+                        isSelected: tempCategory.isEmpty,
+                        onSelected: () {
+                          setModalState(() {
+                            tempCategory = '';
+                          });
                         },
                       ),
-                      FilterChip(
-                        label: const Text('Makanan'),
-                        selected: _selectedCategory == 'makanan',
-                        onSelected: (selected) {
-                          setModalState(
-                            () => _selectedCategory = selected ? 'makanan' : '',
-                          );
+                      _buildFilterChip(
+                        label: 'Makanan',
+                        isSelected: tempCategory == 'makanan',
+                        onSelected: () {
+                          setModalState(() {
+                            tempCategory = 'makanan';
+                          });
                         },
                       ),
-                      FilterChip(
-                        label: const Text('Aksesoris'),
-                        selected: _selectedCategory == 'aksesoris',
-                        onSelected: (selected) {
-                          setModalState(
-                            () =>
-                                _selectedCategory = selected ? 'aksesoris' : '',
-                          );
+                      _buildFilterChip(
+                        label: 'Aksesoris',
+                        isSelected: tempCategory == 'aksesoris',
+                        onSelected: () {
+                          setModalState(() {
+                            tempCategory = 'aksesoris';
+                          });
                         },
                       ),
-                      FilterChip(
-                        label: const Text('Obat'),
-                        selected: _selectedCategory == 'obat',
-                        onSelected: (selected) {
-                          setModalState(
-                            () => _selectedCategory = selected ? 'obat' : '',
-                          );
+                      _buildFilterChip(
+                        label: 'Obat',
+                        isSelected: tempCategory == 'obat',
+                        onSelected: () {
+                          setModalState(() {
+                            tempCategory = 'obat';
+                          });
                         },
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 30),
 
-                  // 🔘 Tombol Terapkan
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {}); // refresh tampilan utama
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurple,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                  // Action Buttons
+                  Row(
+                    children: [
+                      // Reset Button
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setModalState(() {
+                              tempCategory = '';
+                            });
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            side: const BorderSide(color: Colors.deepPurple),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            'Reset',
+                            style: TextStyle(
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    child: const Text(
-                      'Terapkan Filter',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                      const SizedBox(width: 12),
+
+                      // Apply Button
+                      Expanded(
+                        flex: 2,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            // Tutup bottom sheet dengan animasi smooth
+                            Navigator.pop(context);
+
+                            // Delay untuk animasi bottom sheet selesai
+                            await Future.delayed(
+                              const Duration(milliseconds: 300),
+                            );
+
+                            // Update state di halaman utama
+                            if (mounted) {
+                              setState(() {
+                                _selectedCategory = tempCategory;
+                              });
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.deepPurple,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            'Terapkan Filter',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                  SizedBox(height: MediaQuery.of(context).padding.bottom + 10),
                 ],
               ),
             );
@@ -116,16 +200,49 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
+  // Helper method untuk membuat FilterChip yang custom
+  Widget _buildFilterChip({
+    required String label,
+    required bool isSelected,
+    required VoidCallback onSelected,
+  }) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      child: FilterChip(
+        label: Text(label),
+        selected: isSelected,
+        onSelected: (_) => onSelected(),
+        labelStyle: TextStyle(
+          color: isSelected ? Colors.white : Colors.deepPurple,
+          fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+        ),
+        backgroundColor: Colors.grey[100],
+        selectedColor: Colors.deepPurple,
+        checkmarkColor: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(
+            color: isSelected ? Colors.deepPurple : Colors.grey[300]!,
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage())
-          ),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => FloatingBottomNav()),
+            );
+          },
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -329,13 +446,11 @@ class _ProductPageState extends State<ProductPage> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 2,),
+                              const SizedBox(height: 2),
                               Container(
                                 padding: EdgeInsets.all(2.0),
-                                child: Text(
-                                  '${p['reviewCount']} Ulasan'
-                                ),
-                              )
+                                child: Text('${p['reviewCount']} Ulasan'),
+                              ),
                             ],
                           ),
                         ),

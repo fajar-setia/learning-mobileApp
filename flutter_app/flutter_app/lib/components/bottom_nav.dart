@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/product_page.dart';
 import '../pages/home_page.dart';
 
-
-
-// Alternatif: Floating Bottom Navigation dengan Notch
 class FloatingBottomNav extends StatefulWidget {
   const FloatingBottomNav({super.key});
 
@@ -16,9 +13,11 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    HomePage(), 
-    ProductPage()
-    ];
+    HomePage(),
+    ProductPage(),
+    Center(child: Text('Profile Page')), // placeholder
+    Center(child: Text('Settings Page')), // placeholder
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
       extendBodyBehindAppBar: true,
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         notchMargin: 8,
         color: Colors.white,
         elevation: 10,
@@ -36,20 +35,9 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavItem(0, Icons.home, Icons.home_outlined, 'Home'),
-              _buildNavItem(
-                1,
-                Icons.add_chart,
-                Icons.add_chart_outlined,
-                'Product',
-              ),
-              // SizedBox(width: 30), // Space for FAB
+              _buildNavItem(1, Icons.add_chart, Icons.add_chart_outlined, 'Product'),
               _buildNavItem(2, Icons.person, Icons.person_outline, 'Profile'),
-              _buildNavItem(
-                3,
-                Icons.settings,
-                Icons.settings_outlined,
-                'Settings',
-              ),
+              _buildNavItem(3, Icons.settings, Icons.settings_outlined, 'Settings'),
             ],
           ),
         ),
@@ -74,11 +62,11 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 200),
-            padding: EdgeInsets.all(8),
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: isActive
-                  ? Colors.deepPurple.withValues(alpha: 0.1)
+                  ? Colors.deepPurple.withOpacity(0.1)
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
             ),
@@ -88,7 +76,7 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
               size: 24,
             ),
           ),
-          SizedBox(height: 2),
+          const SizedBox(height: 2),
           Text(
             label,
             style: TextStyle(
@@ -101,24 +89,22 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
       ),
     );
   }
+
   void changeTabByRoute(String route) {
-  setState(() {
-    switch (route) {
-      case '/product':
-        _currentIndex = 1;
-        break;
-      case '/profile':
-        _currentIndex = 2;
-        break;
-      case '/settings':
-        _currentIndex = 3;
-        break;
-      default:
-        _currentIndex = 0;
-    }
-  });
+    setState(() {
+      switch (route) {
+        case '/product':
+          _currentIndex = 1;
+          break;
+        case '/profile':
+          _currentIndex = 2;
+          break;
+        case '/settings':
+          _currentIndex = 3;
+          break;
+        default:
+          _currentIndex = 0;
+      }
+    });
+  }
 }
-
-}
-
-

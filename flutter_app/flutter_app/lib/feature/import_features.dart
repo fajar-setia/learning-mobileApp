@@ -23,6 +23,10 @@ class AppFeaturesImage {
   static const String promo3 = 'assets/assets_banner/banner_promo3.png';
   static const String promo4 = 'assets/assets_banner/banner_promo4.png';
 
+  //bg login dan sign up
+  static const String bg_login = 'assets/assets_bg_login/bg_login.jpg';
+  static const String logo_remove = 'assets/assets_bg_login/logo_remove.png';
+
 }
 
 class AppFeature {

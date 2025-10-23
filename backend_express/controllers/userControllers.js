@@ -16,8 +16,6 @@ exports.registerUser = async (req, res) => {
     const {username, email, fullName, phone, password, address} = req.body;
 
     try{
-        console.log(`[DEBUG] Login attempt for username: ${username}`);
-        console.log(`[DEBUG] Password received (plaintext): ${password}`);
         const existingUser = await User.findOne({email});
         if(existingUser){
             return res.status(400).json({message: "Email sudah terdaftar."});
