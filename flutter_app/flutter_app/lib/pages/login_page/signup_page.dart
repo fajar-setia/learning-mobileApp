@@ -113,242 +113,158 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(AppFeaturesImage.bg_login),
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-              ),
-            ),
+      body: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(AppFeaturesImage.bg_login),
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
           ),
-          Positioned(
-            top: 30,
-            left: 30,
-            child: SafeArea(
-              child: CircleAvatar(
-                backgroundColor: Colors.white.withOpacity(0.6),
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.deepPurple),
-                  onPressed: () => Navigator.pop(context),
-                  
-                ),
-              ),
-            ),
-          ),
-          SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24.0),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      // --- Bagian Utama ---
-                      Container(
-                        margin: EdgeInsets.only(top: 2.0),
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
+        ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24.0),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(top: 2.0),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: .15),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
                           color: Colors.white.withValues(alpha: .2),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: .3),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white.withValues(alpha: .2),
-                              blurRadius: 15,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
                         ),
-                        child: Column(
-                          children: [
-                            const Text(
-                              'Informasi Akun',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Divider(
-                              color: Colors.black,
-                              radius: BorderRadius.circular(10),
-                            ),
-                            _buildTextField(
-                              usernameController,
-                              'Username',
-                              (value) => value!.isEmpty
-                                  ? 'Username harus diisi'
-                                  : null,
-                            ),
-                            _buildTextField(
-                              emailController,
-                              'Email',
-                              (value) => !value!.contains('@')
-                                  ? 'Email tidak valid'
-                                  : null,
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                            _buildTextField(
-                              passwordController,
-                              'Password',
-                              (value) =>
-                                  value!.length < 6 ? 'Min. 6 karakter' : null,
-                              obscureText: true,
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      const SizedBox(height: 18),
-                      // --- Bagian Detail Pribadi ---
-                      Container(
-                        margin: EdgeInsets.only(top: 2.0),
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: .2),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: .3),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white.withValues(alpha: .2),
-                              blurRadius: 15,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            const Text(
-                              'Detail Pribadi',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Divider(
-                              color: Colors.black,
-                              radius: BorderRadius.circular(20),
-                            ),
-                            _buildTextField(
-                              fullNameController,
-                              'Nama Lengkap',
-                              (value) => value!.isEmpty
-                                  ? 'Nama Lengkap harus diisi'
-                                  : null,
-                            ),
-                            _buildTextField(
-                              phoneController,
-                              'Nomor Telepon',
-                              (value) => value!.isEmpty
-                                  ? 'Nomor telepon harus diisi'
-                                  : null,
-                              keyboardType: TextInputType.phone,
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      const SizedBox(height: 18),
-
-                      Container(
-                        margin: EdgeInsets.only(top: 2.0),
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: .15),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
+                        boxShadow: [
+                          BoxShadow(
                             color: Colors.white.withValues(alpha: .2),
+                            blurRadius: 15,
+                            offset: Offset(0, 3),
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white.withValues(alpha: .2),
-                              blurRadius: 15,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Center(
-                              child: Text(
-                                'Alamat Pengiriman',
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(
+                                  Icons.arrow_back_ios,
                                   color: Colors.black,
                                 ),
                               ),
-                            ),
-                            Divider(
-                              color: Colors.black,
-                              radius: BorderRadius.circular(20),
-                            ),
-                            _buildTextField(
-                              streetController,
-                              'Nama Jalan & Nomor Rumah',
-                              (value) =>
-                                  value!.isEmpty ? 'Jalan harus diisi' : null,
-                            ),
-                            _buildTextField(
-                              cityController,
-                              'Kota/Kabupaten',
-                              (value) =>
-                                  value!.isEmpty ? 'Kota harus diisi' : null,
-                            ),
-                            ElevatedButton(
-                              onPressed: _isLoading ? null : _register,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.deepPurple[400],
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 15,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                              Text(
+                                'SIGNUP',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
                               ),
-                              child: _isLoading
-                                  ? const SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                        strokeWidth: 3,
-                                      ),
-                                    )
-                                  : const Text(
-                                      'DAFTAR SEKARANG',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          _buildTextField(
+                            usernameController,
+                            'Username',
+                            (value) =>
+                                value!.isEmpty ? 'Username harus diisi' : null,
+                          ),
+                          _buildTextField(
+                            emailController,
+                            'Email',
+                            (value) => !value!.contains('@')
+                                ? 'Email tidak valid'
+                                : null,
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          _buildTextField(
+                            passwordController,
+                            'Password',
+                            (value) =>
+                                value!.length < 6 ? 'Min. 6 karakter' : null,
+                            obscureText: true,
+                          ),
+                          _buildTextField(
+                            fullNameController,
+                            'Nama Lengkap',
+                            (value) => value!.isEmpty
+                                ? 'Nama Lengkap harus diisi'
+                                : null,
+                          ),
+                          _buildTextField(
+                            phoneController,
+                            'Nomor Telepon',
+                            (value) => value!.isEmpty
+                                ? 'Nomor telepon harus diisi'
+                                : null,
+                            keyboardType: TextInputType.phone,
+                          ),
+                          _buildTextField(
+                            streetController,
+                            'Nama Jalan & Nomor Rumah',
+                            (value) =>
+                                value!.isEmpty ? 'Jalan harus diisi' : null,
+                          ),
+                          _buildTextField(
+                            cityController,
+                            'Kota/Kabupaten',
+                            (value) =>
+                                value!.isEmpty ? 'Kota harus diisi' : null,
+                          ),
+                          ElevatedButton(
+                            onPressed: _isLoading ? null : _register,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.deepPurple[400],
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
-                            const SizedBox(height: 20),
-                          ],
-                        ),
+                            child: _isLoading
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 3,
+                                    ),
+                                  )
+                                : const Text(
+                                    'DAFTAR SEKARANG',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                          ),
+                          const SizedBox(height: 20),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
+
 
   // Widget pembantu untuk mempersingkat TextField
   Widget _buildTextField(
@@ -367,10 +283,19 @@ class _SignupPageState extends State<SignupPage> {
         validator: validator,
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+          labelStyle: TextStyle(color: Colors.white),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 15,
             vertical: 12,
+          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(color: Colors.white, width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(color: Colors.white),
           ),
           filled: true,
           fillColor: Colors.white.withValues(alpha: .2),

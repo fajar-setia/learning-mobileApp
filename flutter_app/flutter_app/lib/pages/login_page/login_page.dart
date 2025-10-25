@@ -31,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   final password = passwordController.text.trim();
 
   if (username.isEmpty || password.isEmpty) {
+    if (!mounted) return; // ✅ jaga context
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Username dan password wajib diisi!')),
     );
@@ -41,23 +42,24 @@ class _LoginPageState extends State<LoginPage> {
 
   try {
     final result = await AuthApiServiceLogin.login(username, password);
+    print("HASIL LOGIN: $result");
+
+    if (!mounted) return;
     setState(() => _isLoading = false);
 
     if (result != null && result['token'] != null) {
       final token = result['token'];
       final usernameLogin = result['username'];
 
-      // simpan token & username ke local storage
       await saveLoginToken(token);
       await saveUsername(usernameLogin);
 
-      // ✅ simpan reference ke messenger agar context tidak hilang
-      final messenger = ScaffoldMessenger.of(context);
-      messenger.showSnackBar(
+      if (!mounted) return; 
+      ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login berhasil!')),
       );
 
-      // beri sedikit delay agar snackbar muncul
+      // beri delay agar snackbar sempat tampil
       await Future.delayed(const Duration(milliseconds: 300));
 
       if (!mounted) return;
@@ -66,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
         MaterialPageRoute(builder: (context) => const FloatingBottomNav()),
       );
     } else {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Login gagal, periksa username/password atau koneksi.'),
@@ -80,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _isLoading = false);
   }
 }
+
 
 
   @override

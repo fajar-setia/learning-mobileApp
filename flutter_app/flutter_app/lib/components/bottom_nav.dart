@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/pages/cart_page.dart';
 import 'package:flutter_app/pages/product_page.dart';
+import 'package:flutter_app/pages/profile_page.dart';
 import '../pages/home_page.dart';
 
 class FloatingBottomNav extends StatefulWidget {
@@ -15,8 +17,8 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
   final List<Widget> _pages = [
     HomePage(),
     ProductPage(),
-    Center(child: Text('Profile Page')), // placeholder
-    Center(child: Text('Settings Page')), // placeholder
+    CartPage(),
+    ProfilePage(), // placeholder
   ];
 
   @override
@@ -35,9 +37,9 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavItem(0, Icons.home, Icons.home_outlined, 'Home'),
-              _buildNavItem(1, Icons.add_chart, Icons.add_chart_outlined, 'Product'),
-              _buildNavItem(2, Icons.person, Icons.person_outline, 'Profile'),
-              _buildNavItem(3, Icons.settings, Icons.settings_outlined, 'Settings'),
+              _buildNavItem(1, Icons.store, Icons.store_outlined, 'Product'),
+              _buildNavItem(2, Icons.shopping_cart, Icons.shopping_cart_outlined, 'Cart'),
+              _buildNavItem(3, Icons.person, Icons.person_3_outlined, 'Profile'),
             ],
           ),
         ),
@@ -66,7 +68,7 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: isActive
-                  ? Colors.deepPurple.withOpacity(0.1)
+                  ? Colors.deepPurple.withValues(alpha: .1)
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
             ),
@@ -96,10 +98,10 @@ class FloatingBottomNavState extends State<FloatingBottomNav> {
         case '/product':
           _currentIndex = 1;
           break;
-        case '/profile':
+        case '/cart':
           _currentIndex = 2;
           break;
-        case '/settings':
+        case '/profile':
           _currentIndex = 3;
           break;
         default:
